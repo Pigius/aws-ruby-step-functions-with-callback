@@ -1,0 +1,11 @@
+.serverless
+*.log
+npm-debug.log
+pids
+*.pid
+node_modules
+.idea
+.DS_Store
+.tmp
+.env
+tmp

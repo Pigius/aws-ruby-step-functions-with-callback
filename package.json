@@ -1,0 +1,14 @@
+{
+  "name": "aws-ruby-step-functions-callback",
+  "version": "1.0.0",
+  "description": "Serverless project example which uses Step Functions with the callback.",
+  "author": "Daniel Aniszkiewicz",
+  "license": "MIT",
+  "dependencies": {
+    "serverless-ruby-layer": "^1.5.0"
+  },
+  "devDependencies": {
+    "serverless": "^2.46.0",
+    "serverless-step-functions": "^2.32.0"
+  }
+}

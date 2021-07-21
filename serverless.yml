@@ -1,0 +1,55 @@
+service: aws-ruby-step-functions-with-callback
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: ruby2.7
+  memorySize: 256
+  timeout: 10
+  logRetentionInDays: 30
+  lambdaHashingVersion: 20201221
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - states:SendTaskFailure
+            - states:SendTaskSuccess
+          Resource: '*'
+functions:
+  send-token:
+    handler: src/handlers/send_token/handler.run
+plugins:
+  - serverless-ruby-layer
+  - serverless-step-functions
+custom:
+  rubyLayer:
+    include_functions:
+      - send-token
+stepFunctions:
+  stateMachines:
+    MyCallback:
+      name: MyCallback
+      definition:
+        StartAt: LambdaInvoke
+        States:
+          LambdaInvoke:
+            Type: Task
+            Resource: arn:aws:states:::lambda:invoke.waitForTaskToken
+            Parameters:
+              FunctionName: 
+                Fn::GetAtt: [send-token, Arn]
+              Payload:
+                task_token.$: $$.Task.Token
+            Retry:
+            - ErrorEquals:
+              - Lambda.ServiceException
+              - Lambda.AWSLambdaException
+              - Lambda.SdkClientException
+              IntervalSeconds: 2
+              MaxAttempts: 6
+              BackoffRate: 2
+            End: true
+  validate: true
