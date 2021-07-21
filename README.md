@@ -1,6 +1,9 @@
 # Serverless AWS Ruby Step Functions with the callback example
 
 Serverless project example which uses AWS `Step Functions` with the `callback`.
+
+This project was created for this [blog post](https://www.danielaniszkiewicz.com/aws-step-functions-callback.html).
+
 Serverless project example which uses Step Functions `taskToken` to pause a workflow until the `taskToken` will be returned. It's a callback pattern. `AWS Lambda` and `Step Functions` were used. 
 
 ## Diagram
